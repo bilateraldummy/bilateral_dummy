@@ -1,0 +1,4 @@
+Coresets
+========
+
+.. automodule:: coreax.coreset

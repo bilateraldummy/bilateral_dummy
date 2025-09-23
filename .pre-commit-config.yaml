@@ -1,0 +1,120 @@
+default_install_hook_types:
+  - pre-commit
+  - pre-merge-commit
+  - commit-msg
+default_stages:
+  - pre-commit
+  - pre-merge-commit
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      # Reject commits that add large files (coverage.xml, for example)
+      # Consider adjusting kB limit
+      - id: check-added-large-files
+        args:
+          - --enforce-all
+          - --maxkb=5000
+      # Check valid Python syntax
+      - id: check-ast
+      # Require literal syntax when initializing empty or zero python builtin types
+      - id: check-builtin-literals
+      # Check for files that would conflict in case-insensitive filesystems
+      - id: check-case-conflict
+      # Check for a common error of defining a docstring after code
+      - id: check-docstring-first
+      # Check for files that contain merge conflict strings
+      - id: check-merge-conflict
+      # Check TOML files for parsable syntax
+      - id: check-toml
+      # Check YAML files for parsable syntax
+      - id: check-yaml
+      # Files must end in a single newline
+      - id: end-of-file-fixer
+      # Remove whitespace at the end of lines
+      - id: trailing-whitespace
+      # Prevent commit to main/master
+      - id: no-commit-to-branch
+      # Sort spell check custom dictionary
+      - id: file-contents-sorter
+        files: ^.cspell/(custom_misc|library_terms|people).txt$
+        args:
+          - --ignore-case
+          - --unique
+  - repo: local
+    hooks:
+      # Check files are valid UTF-8
+      - id: require-utf8
+        name: Check file encoding
+        description: Ensure file is valid UTF-8
+        entry: python pre_commit_hooks/require_utf8.py
+        language: python
+        exclude:
+          (?x)^(
+            examples/.+/.+.(gif|png)
+          )$
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.5
+    hooks:
+      # No tabs, only spaces
+      - id: forbid-tabs
+        exclude: documentation/make.bat|documentation/Makefile
+  - repo: https://github.com/streetsidesoftware/cspell-cli
+    rev: v8.13.3
+    hooks:
+      # Run a spellcheck (words pulled from cspell.config.yaml)
+      - id: cspell
+        stages:
+          - pre-commit
+          - pre-merge-commit
+          - commit-msg
+        exclude_types:
+          - batch
+          - gitignore
+          - makefile
+          - pylintrc
+          - svg
+        exclude: requirements(-.*)?.txt|.cspell/.*
+
+  # Python specific Hooks
+  - repo: https://github.com/regebro/pyroma
+    rev: "4.2"
+    hooks:
+      # Ensure that necessary package information is provided
+      - id: pyroma
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      # Enforce that type annotations are used instead of type comments
+      - id: python-use-type-annotations
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.7
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [ --fix ]
+        # Abort if ruff linter fails as there is some duplication of functionality with
+        # the slow pylint hook
+        fail_fast: true
+      # Run the formatter.
+      - id: ruff-format
+  - repo: local
+    hooks:
+      # Python static analysis tool
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types:
+          - python
+        args:
+          - "-rn" # Only display messages
+          - "-sn" # Don't display the score
+          - "--rcfile=.pylintrc" # pylint configuration file
+        exclude: "documentation/source/snippets"
+      - id: check-copyright
+        name: Check for copyright notice
+        description: Ensure a copyright notice is present at the top of each Python file
+        entry: python pre_commit_hooks/check_copyright.py
+        types: [ python ]
+        language: python
