@@ -65,5 +65,5 @@ Figures can be generated using the provided notebook, and the `.npy` files produ
   compressed_set, state = solver.reduce(Data(X_ambient))
   
   # To access the bilaterally compressed set you can then do
-  compressed_set.coreset.data # This should contain 10 dat apoints in 2 dimensions
+  compressed_set.coreset.data # This should contain 10 data points in 2 dimensions
 ```
