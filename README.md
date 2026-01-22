@@ -6,7 +6,7 @@ To install with pip, download the repository and run `pip install .` in the repo
 Coreax defaults to installing CPU-only JAX, if one has access to a GPU, after installation of Coreax run `pip install -U "jax[cuda12]"`.
 
 # Instructions
-In order to run the experiments, first download the [supplemental material](https://openreview.net/forum?id=B1pHQZS5LO&referrer=%5Bthe%20profile%20of%20Dominic%20Broadbent%5D(%2Fprofile%3Fid%3D~Dominic_Broadbent1), then from a terminal in the relevant folder, run `chmod +x /run_experiments.sh` followed by `./run_experiments.sh`.
+In order to run the experiments, first download the (supplemental material)[https://openreview.net/forum?id=B1pHQZS5LO&referrer=%5Bthe%20profile%20of%20Dominic%20Broadbent%5D(%2Fprofile%3Fid%3D~Dominic_Broadbent1], then from a terminal in the relevant folder, run `chmod +x /run_experiments.sh` followed by `./run_experiments.sh`.
 
 Note that these experiments took around 48 hours to run on GPU. To increase speed, consider reducing the size of the compressed set generated, or the size of the target dataset.
 
