@@ -20,7 +20,8 @@ Figures can be generated using the provided notebook, and the `.npy` files produ
   from coreax.data import Data
   from coreax.kernels import SquaredExponentialKernel, median_heuristic
   from coreax.solvers import LinearBilateralDistributionCompression
-  
+
+  # Set random seed and data hyperparams
   SEED = 42
   n_data_points = 1000
   intrinsic_dimension = 2
@@ -48,7 +49,7 @@ Figures can be generated using the provided notebook, and the `.npy` files produ
       compression_kernel="median_heuristic",  # Use a SquaredExponentialKernel defined on the embedding space using the median heuristic
       orthonormal=True,  # Ensure the optimised projection matrix is orthonormal
       num_projection_seeds=1,  # Initialise the projection matrix randomly
-      num_projection_epochs=10,  # Optimise for 10 epochs
+      num_projection_epochs=100,  # Optimise for 100 epochs
       projection_optimiser=optax.adam(
           optax.constant_schedule(1e-3)
       ),  # Optimise projection matrix with ADAM
